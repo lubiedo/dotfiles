@@ -110,6 +110,7 @@ source ${HOME}/.local.zshrc
 #aliases
 alias yabai-restart='killall yabai ; (cd /private/tmp && nohup yabai &)'
 alias sha256="shasum -a 256"
+alias ls='exa'
 
 #functions
 function fullpath() { echo $(pwd)/${1/.\//} }

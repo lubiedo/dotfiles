@@ -16,3 +16,12 @@ vim -c ':PluginInstall' -c ':qall'
 cp -r ./vim/* ~/.vim/
 download "https://raw.githubusercontent.com/s3rvac/vim-syntax-yara/master/syntax/yara.vim"  ~/.vim/syntax/yara.vim
 
+# brew installs
+pkgs=(
+  exa   # better ls
+  up    # visual command pipeliner
+)
+for pkg in ${pkgs[*]};do
+  brew install $pkg
+done
+
