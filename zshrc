@@ -83,7 +83,7 @@ source $ZSH/oh-my-zsh.sh
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='nano'
 fi
 
 # Compilation flags
@@ -111,6 +111,8 @@ source ${HOME}/.local.zshrc
 alias yabai-restart='killall yabai ; (cd /private/tmp && nohup yabai &)'
 alias sha256="shasum -a 256"
 alias ls='exa'
+alias tree='exa --tree'
+alias webserve='python3 -m http.server 8080'
 
 #functions
 function fullpath() { echo $(pwd)/${1/.\//} }
