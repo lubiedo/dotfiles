@@ -103,6 +103,12 @@ export PATH="${HOME}/bin:$PATH"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export TERM="xterm-256color"
 
+export ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[white]%}"
+export ZSH_THEME_GIT_PROMPT_SUFFIX=""
+export ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%};%{$fg[white]%}%{$reset_color%}"
+export ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}"
+export PROMPT='$(vcs_status)%(?,%{$fg[green]%};,%{$fg[red]%};)%{$reset_color%}%b '
+
 # Local zshrc
 source ${HOME}/.local.zshrc
 
