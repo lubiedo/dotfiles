@@ -12,6 +12,10 @@ for rc in ${rcs[*]};do
 done
 
 # install vim plugins && extras
+[ ! -e ~/.vim/bundle/Vundle.vim ] && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+(
+  cd ~/.vim/bundle/Vundle.vim && git pull
+)
 vim -c ':PluginInstall' -c ':qall'
 cp -r ./vim/* ~/.vim/
 download "https://raw.githubusercontent.com/s3rvac/vim-syntax-yara/master/syntax/yara.vim"  ~/.vim/syntax/yara.vim
