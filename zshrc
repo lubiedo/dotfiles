@@ -103,11 +103,28 @@ export PATH="${HOME}/bin:$PATH"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export TERM="xterm-256color"
 
+# minimal theme overwrite {
 export ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[white]%}"
 export ZSH_THEME_GIT_PROMPT_SUFFIX=""
 export ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%};%{$fg[white]%}%{$reset_color%}"
 export ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}"
+
+vcs_status() {
+  if (( ${+functions[in_svn]} )) && in_svn; then
+    svn_prompt_info
+  elif (( ${+functions[in_hg]} )) && in_hg; then
+    hg_prompt_info
+  else
+    if ! __git_prompt_git rev-parse --git-dir &> /dev/null \
+       || [[ "$(__git_prompt_git config --get oh-my-zsh.hide-info 2>/dev/null)" == 1 ]]; then
+      return 0
+    else
+      echo "${ZSH_THEME_GIT_PROMPT_PREFIX}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+    fi
+  fi
+}
 export PROMPT='$(vcs_status)%(?,%{$fg[green]%};,%{$fg[red]%};)%{$reset_color%}%b '
+# }
 
 # Local zshrc
 source ${HOME}/.local.zshrc
