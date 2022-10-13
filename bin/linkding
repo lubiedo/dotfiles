@@ -1,0 +1,86 @@
+#!/usr/bin/env -S v -raw-vsh-tmp-prefix tmp run
+// search bookmarks on linkding via cli
+module main
+
+import term
+import os
+import json
+import net.http
+import net.urllib { query_escape }
+
+struct App {
+	url   string
+	token string
+}
+
+struct Bookmark {
+	id                  int
+	url                 string
+	title               string
+	description         string
+	website_title       string
+	website_description string
+	is_archived         bool
+	tag_names           []string
+	date_added          string
+	date_modified       string
+}
+
+struct Results {
+	count    int
+	next     int        [skip]
+	previous int        [skip]
+	results  []Bookmark
+}
+
+[noreturn]
+fn fail(msg string) {
+	eprintln(term.failed(msg))
+	exit(1)
+}
+
+fn (app App) do(query string) Results {
+	mut conf := http.FetchConfig{
+		url: app.url + '/api/bookmarks/?limit=9999&q=' + query_escape(query)
+		method: http.Method.get
+	}
+	conf.header.add(http.CommonHeader.authorization, 'Token $app.token')
+
+	result := http.fetch(conf) or { fail('error requesting bookmarks') }
+	data := json.decode(Results, result.body) or { fail('error parsing JSON response') }
+
+	return data
+}
+
+[console]
+fn main() {
+	args := os.args.clone()
+	environ := os.environ()
+	if args.len < 2 {
+		fail('missing search query')
+	}
+	if 'LINKDING_URL' !in environ.keys() || 'LINKDING_TOKEN' !in environ.keys() {
+		fail('url and token env variables missing')
+	}
+
+	app := App{
+		url: environ['LINKDING_URL']
+		token: environ['LINKDING_TOKEN']
+	}
+
+	search := args[1..].join(' ')
+	results := app.do(search)
+	if results.count > 0 {
+		for bmark in results.results {
+			println(',• ${term.red(bmark.url)}\n| ${term.bold(bmark.website_title)}')
+			desc := bmark.website_description
+			if desc != '' {
+				print('| ${desc.limit(80)}')
+				print(if desc.len > 80 { '...\n' } else { '\n' })
+			}
+			println('`${'-'.repeat(84)}´')
+		}
+	} else {
+		println('no results found.')
+	}
+}

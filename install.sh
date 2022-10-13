@@ -11,6 +11,12 @@ for rc in ${rcs[*]};do
   [ ! -L ~/.${rc} ] && ln -s ${PWD}/${rc} ~/.${rc}
 done
 
+# install user bins
+[ ! -d ~/bin ] && mkdir ~/bin
+for f in bin/* ;do
+  ln -s $(pwd)/${f} ~/${f}
+done
+
 # install vim plugins && extras
 [ ! -e ~/.vim/bundle/Vundle.vim ] && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 (
