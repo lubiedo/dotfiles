@@ -74,3 +74,9 @@ augroup skeletons
   autocmd BufNewFile *.* silent! execute '0r ~/.vim/templates/skeleton.'.expand("<afile>:e")
 augroup END
 
+" toggle automatic relative numbers if on insert mode
+augroup autornu
+  au!
+  autocmd BufNewFile,BufRead,ModeChanged * if &nu && (mode() == "i" || mode() == "v") | set nornu | else | set rnu | end
+augroup END
+
