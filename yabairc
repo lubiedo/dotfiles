@@ -67,7 +67,7 @@ yabai -m space 4 --label uptodate
 yabai -m space 5 --label anarchy
 yabai -m config --space 5 layout float
 
-yabai -m rule --add app="^(Discord|Microsoft Teams)$" space=social manage=off
+yabai -m rule --add app="^((?:Dis|Swift)cord|Microsoft Teams)$" space=social manage=off
 yabai -m rule --add app="^(Firefox|Safari)$" space=browser
 yabai -m rule --add app="^(Thunderbird|NetNewsWire)$" space=uptodate
 

@@ -31,6 +31,7 @@ pkgs=(
   vim   # use brew's vim for python3 support
   exa   # better ls
   up    # visual command pipeliner
+  jq    # json processor
 )
 for pkg in ${pkgs[*]};do
   brew install $pkg
