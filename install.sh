@@ -28,6 +28,7 @@ download "https://raw.githubusercontent.com/s3rvac/vim-syntax-yara/master/syntax
 
 # brew installs
 pkgs=(
+  vim   # use brew's vim for python3 support
   exa   # better ls
   up    # visual command pipeliner
 )
