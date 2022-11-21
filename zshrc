@@ -80,9 +80,8 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
+export EDITOR='vim'
+if [[ -z $SSH_CONNECTION ]]; then
   export EDITOR='nano'
 fi
 
@@ -129,7 +128,6 @@ export PROMPT='$(vcs_status)%(?,%{$fg[green]%};,%{$fg[red]%};)%{$reset_color%}%b
 # Local zshrc
 source ${HOME}/.local.zshrc
 
-### macOS
 #aliases
 alias yabai-restart='killall yabai ; (cd /private/tmp && nohup yabai &)'
 alias sha256="shasum -a 256"
@@ -137,6 +135,7 @@ alias ls='exa'
 alias lnew='ll -snew'
 alias tree='exa --tree'
 alias webserve='python3 -m http.server 8080'
+[ -f /usr/local/bin/vim ] && alias vim='/usr/local/bin/vim' 
 
 #functions
 function fullpath() { echo $(pwd)/${1/.\//} }
