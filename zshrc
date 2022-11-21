@@ -134,6 +134,7 @@ source ${HOME}/.local.zshrc
 alias yabai-restart='killall yabai ; (cd /private/tmp && nohup yabai &)'
 alias sha256="shasum -a 256"
 alias ls='exa'
+alias lnew='ll -snew'
 alias tree='exa --tree'
 alias webserve='python3 -m http.server 8080'
 
