@@ -77,6 +77,6 @@ augroup END
 " toggle automatic relative numbers if on insert mode
 augroup autornu
   au!
-  autocmd BufNewFile,BufRead,ModeChanged * if &nu && (mode() == "i" || mode() == "v") | set nornu | else | set rnu | end
+  autocmd BufNewFile,BufRead,ModeChanged * if &nu && mode() == "v" | set rnu | else | set nornu | end
 augroup END
 

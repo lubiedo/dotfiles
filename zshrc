@@ -167,6 +167,14 @@ function qr-gen() {
     base64 -D | open -f -a Preview
 }
 
+function filesum() {
+  local FILE=$1
+  echo -n "* Size: " && stat -f '%z' $FILE
+  echo -n "* Type: " && file -b $FILE
+  echo -n "* MD5: " && md5 -q $FILE
+  echo -n "* SHA256: " && (shasum -a 256 $FILE | cut -d' ' -f1)
+}
+
 # in case I keep writing `wget` and it doesn't exists...
 if ! which wget >/dev/null ;then
   function wget() {

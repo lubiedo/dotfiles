@@ -91,6 +91,7 @@ yabai -m rule --add title="^(Web Inspector|Developer Tools).*" manage=off
 yabai -m rule --add app="^(LuLu|Calculator|Voice Memos|Clean Me|SelfControl|Another Day|Oo{4}|Simulator|TomatoBar|1Password)$" manage=off
 yabai -m rule --add app="^Tunnelblick$" manage=off
 yabai -m rule --add app="^Music$" title="MiniPlayer" manage=off
+yabai -m rule --add app="^Arc$" title="Picture in Picture" manage=off
 
 # setup spaces
 yabai -m space 1 --label code
