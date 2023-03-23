@@ -72,8 +72,8 @@ yabai -m config                                 \
     auto_balance                 off            \
     top_padding                  50             \
     bottom_padding               50             \
-    left_padding                 80             \
-    right_padding                80             \
+    left_padding                 35             \
+    right_padding                35             \
     window_gap                   20             \
     layout                       bsp            \
     mouse_modifier               fn             \
@@ -87,9 +87,9 @@ yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add app="SpeedReader" title="Reading" manage=off
 yabai -m rule --add title="^.+noVNC$" manage=off
 yabai -m rule --add app="scrcpy" manage=off # scrpy for android devices
-yabai -m rule --add title="^(Web Inspector|Developer Tools).*" manage=off
-yabai -m rule --add app="^(LuLu|Calculator|Voice Memos|Clean Me|SelfControl|Another Day|Oo{4}|Simulator|TomatoBar|1Password)$" manage=off
-yabai -m rule --add app="^Tunnelblick$" manage=off
+yabai -m rule --add title="^(maltego|Web Inspector|Developer Tools|Android Emulator).*" manage=off
+yabai -m rule --add app="^(LuLu|Boop|Calculator|Voice Memos|Clean Me|SelfControl|Another Day|Oo{4}|Binaural|Simulator|TomatoBar|1Password)$" manage=off # misc tools
+yabai -m rule --add app="^Keybase$" manage=off
 yabai -m rule --add app="^Music$" title="MiniPlayer" manage=off
 yabai -m rule --add app="^Arc$" title="Picture in Picture" manage=off
 
@@ -102,8 +102,8 @@ yabai -m space 4 --label uptodate
 yabai -m space 5 --label anarchy
 yabai -m config --space 5 layout float
 
-yabai -m rule --add app="^((?:Dis|Swift)cord|Microsoft Teams)$" space=social manage=off
-yabai -m rule --add app="^(Firefox|Safari)$" space=browser
+yabai -m rule --add app="^(Keybase|(Dis|Swift)cord|Microsoft Teams)$" space=social manage=off
+yabai -m rule --add app="^(Arc|Firefox|Safari)$" space=browser
 yabai -m rule --add app="^(Thunderbird|NetNewsWire)$" space=uptodate
 
 echo "yabai configuration loaded.."

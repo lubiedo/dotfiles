@@ -68,7 +68,8 @@ export UPDATE_ZSH_DAYS=6
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker brew tmux wakeonlan virtualenv colored-man-pages colorize fancy-ctrl-z )
+export PATH="/opt/homebrew/bin:$PATH"
+plugins=(git docker brew tmux wakeonlan virtualenv colored-man-pages colorize fancy-ctrl-z fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -135,6 +136,7 @@ alias ls='exa'
 alias lnew='ll -snew'
 alias tree='exa --tree'
 alias webserve='python3 -m http.server 8080'
+alias vscode="open -a Visual\\ Studio\\ Code"
 [ -f /usr/local/bin/vim ] && alias vim='/usr/local/bin/vim' 
 
 #functions
@@ -172,7 +174,24 @@ function filesum() {
   echo -n "* Size: " && stat -f '%z' $FILE
   echo -n "* Type: " && file -b $FILE
   echo -n "* MD5: " && md5 -q $FILE
+  echo -n "* SHA1: " && (shasum -a 1 $FILE | cut -d' ' -f1)
   echo -n "* SHA256: " && (shasum -a 256 $FILE | cut -d' ' -f1)
+}
+
+# Ooooo
+function beats() {
+  local ARG=$1
+  [ -z $ARG ] && {
+    echo "beats [start|stop]" && return
+  }
+
+  local VOL=${VOL:-50}
+  local FRQ=${FRQ:-45}
+  local TON=${TON:-120}
+  case $ARG in
+    start) open -j -g "ooooo://start?frequency=${FRQ}&tone=${TON}&binaural=true&volume=${VOL}" ;;
+    stop) open -j -g "ooooo://stop" ;;
+  esac
 }
 
 # in case I keep writing `wget` and it doesn't exists...
