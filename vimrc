@@ -9,10 +9,11 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
-Plugin 'ycm-core/YouCompleteMe'
 Plugin 'dense-analysis/ale'
 Plugin 'morhetz/gruvbox'
 Plugin 'junegunn/fzf'
+Plugin 'ycm-core/YouCompleteMe'
+Plugin 'preservim/nerdtree'
 call vundle#end()
 
 " theme
@@ -34,8 +35,15 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 nnoremap <S-F> :FZF<CR>
 
+" nerdtree
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTreeMirror<CR>:NERDTreeFocus<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
 " YCM
-set completeopt+=popup
+"set completeopt=popup
 
 " global/visual
 filetype plugin indent on
