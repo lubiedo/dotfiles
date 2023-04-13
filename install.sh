@@ -23,7 +23,7 @@ done
   cd ~/.vim/bundle/Vundle.vim && git pull
 )
 vim -c ':PluginInstall' -c ':qall'
-cp -r ./vim/* ~/.vim/
+cp -r $(pwd)/vim/* ~/.vim/
 download "https://raw.githubusercontent.com/s3rvac/vim-syntax-yara/master/syntax/yara.vim"  ~/.vim/syntax/yara.vim
 
 # brew installs
@@ -32,6 +32,9 @@ pkgs=(
   exa   # better ls
   up    # visual command pipeliner
   jq    # json processor
+  7zip  # 7z
+  fzf   # fuzzy search
+  rg    # grep replacement
 )
 for pkg in ${pkgs[*]};do
   brew install $pkg
