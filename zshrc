@@ -170,19 +170,25 @@ function qr-gen() {
 }
 
 function filesum() {
-  local FILE=$1
-  echo -n "* Size: " && stat -f '%z' $FILE
-  echo -n "* Type: " && file -b $FILE
-  echo -n "* MD5: " && md5 -q $FILE
-  echo -n "* SHA1: " && (shasum -a 1 $FILE | cut -d' ' -f1)
-  echo -n "* SHA256: " && (shasum -a 256 $FILE | cut -d' ' -f1)
+  local FILES=( $* )
+  OLDIFS=$IFS
+  IFS=' '
+  for FILE in ${FILES[@]};do
+    echo -n "* File: " && basename $FILE
+    echo -n "* Size: " && stat -f '%z' $FILE
+    echo -n "* Type: " && file -b $FILE
+    echo -n "* MD5: " && md5 -q $FILE
+    echo -n "* SHA1: " && (shasum -a 1 $FILE | cut -d' ' -f1)
+    echo -n "* SHA256: " && (shasum -a 256 $FILE | cut -d' ' -f1)
+  done
+  IFS=$OLDIFS
 }
 
 # Ooooo
 function beats() {
   local ARG=$1
   [ -z $ARG ] && {
-    echo "beats [start|stop]" && return
+    echo "beats [start|stop|restart]" && return
   }
 
   local VOL=${VOL:-50}
@@ -191,6 +197,7 @@ function beats() {
   case $ARG in
     start) open -j -g "ooooo://start?frequency=${FRQ}&tone=${TON}&binaural=true&volume=${VOL}" ;;
     stop) open -j -g "ooooo://stop" ;;
+    restart) beats stop; sleep 1 && beats start ;;
   esac
 }
 

@@ -84,11 +84,10 @@ yabai -m config                                 \
 # unmanaged
 yabai -m rule --add app="^(Spotify|IINA)$" manage=off
 yabai -m rule --add app="^System Preferences$" manage=off
-yabai -m rule --add app="SpeedReader" title="Reading" manage=off
 yabai -m rule --add title="^.+noVNC$" manage=off
 yabai -m rule --add app="scrcpy" manage=off # scrpy for android devices
 yabai -m rule --add title="^(maltego|Web Inspector|Developer Tools|Android Emulator).*" manage=off
-yabai -m rule --add app="^(LuLu|Boop|Calculator|Voice Memos|Clean Me|SelfControl|Another Day|Oo{4}|Binaural|Simulator|TomatoBar|1Password)$" manage=off # misc tools
+yabai -m rule --add app="^(Notes|LuLu|Boop|Calculator|Voice Memos|Clean Me|SelfControl|Another Day|Oo{4}|Binaural|Simulator|TomatoBar|1Password)$" manage=off # misc tools
 yabai -m rule --add app="^Keybase$" manage=off
 yabai -m rule --add app="^Music$" title="MiniPlayer" manage=off
 yabai -m rule --add app="^Arc$" title="Picture in Picture" manage=off
