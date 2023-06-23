@@ -1,84 +1,18 @@
+# vim: set foldmethod=marker:
+# env {{{
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="minimal"
-
 ZSH_COLORIZE_TOOL=pygmentize
 ZSH_COLORIZE_STYLE=rrt
+DISABLE_MAGIC_FUNCTIONS=true
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
 export UPDATE_ZSH_DAYS=6
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 export PATH="/opt/homebrew/bin:$PATH"
-plugins=(git docker brew tmux wakeonlan virtualenv colored-man-pages colorize fancy-ctrl-z fzf)
+plugins=(git docker brew tmux virtualenv colored-man-pages colorize fancy-ctrl-z fzf)
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
@@ -86,24 +20,13 @@ if [[ -z $SSH_CONNECTION ]]; then
   export EDITOR='nano'
 fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 export PATH="/usr/local/sbin:$PATH"
 export PATH="${HOME}/bin:$PATH"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export TERM="xterm-256color"
+# }}}
 
-# minimal theme overwrite {
+# minimal theme overwrite {{{
 export ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[white]%}"
 export ZSH_THEME_GIT_PROMPT_SUFFIX=""
 export ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%};%{$fg[white]%}%{$reset_color%}"
@@ -124,12 +47,16 @@ vcs_status() {
   fi
 }
 export PROMPT='$(vcs_status)%(?,%{$fg[green]%};,%{$fg[red]%};)%{$reset_color%}%b '
-# }
+# }}}
 
 # Local zshrc
 source ${HOME}/.local.zshrc
 
-#aliases
+# enables macOS to do wordleft/wordright
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word
+
+#aliases {{{
 alias yabai-restart='killall yabai ; (cd /private/tmp && nohup yabai &)'
 alias sha256="shasum -a 256"
 alias ls='exa'
@@ -138,8 +65,9 @@ alias tree='exa --tree'
 alias webserve='python3 -m http.server 8080'
 alias vscode="open -a Visual\\ Studio\\ Code"
 [ -f /usr/local/bin/vim ] && alias vim='/usr/local/bin/vim' 
+# }}}
 
-#functions
+# functions {{{
 function fullpath() { echo $(pwd)/${1/.\//} }
 function vman() {
   man -t "$@" | open -f -a Preview
@@ -184,6 +112,24 @@ function filesum() {
   IFS=$OLDIFS
 }
 
+# zettelkasten
+function zettelkasten_sync() {
+  local DO=$1
+
+  case $DO in
+    up)
+      /usr/local/bin/rclone copy --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 \
+        --low-level-retries 10 --stats 1s ~/Documents/zettelkasten gdrive:zettelkasten
+              ;;
+    down)
+      /usr/local/bin/rclone copy --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 \
+        --low-level-retries 10 --stats 1s gdrive:zettelkasten ~/Documents/zettelkasten
+              ;;
+    *)
+      echo "actions: up/down"
+  esac
+}
+
 # Ooooo
 function beats() {
   local ARG=$1
@@ -208,6 +154,5 @@ if ! which wget >/dev/null ;then
   }
 fi
 
-# enables macOS to do wordleft/wordright
-bindkey "^[[1;3C" forward-word
-bindkey "^[[1;3D" backward-word
+# }}}
+
