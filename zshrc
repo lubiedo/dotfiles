@@ -113,21 +113,20 @@ function filesum() {
 }
 
 # zettelkasten
-function zettelkasten_sync() {
-  local DO=$1
+function zettelkasten() {
+  local CMD=$1
+  local DO=$2
 
+  local DEST=""
   case $DO in
-    up)
-      /usr/local/bin/rclone copy --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 \
-        --low-level-retries 10 --stats 1s ~/Documents/zettelkasten gdrive:zettelkasten
-              ;;
-    down)
-      /usr/local/bin/rclone copy --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 \
-        --low-level-retries 10 --stats 1s gdrive:zettelkasten ~/Documents/zettelkasten
-              ;;
+    down) DEST=( gdrive:zettelkasten ~/Documents/zettelkasten ); ;;
+    up) DEST=( ~/Documents/zettelkasten gdrive:zettelkasten ); ;;
     *)
-      echo "actions: up/down"
+      echo "actions: up/down" && return ;
   esac
+
+  rclone $CMD --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 \
+    --low-level-retries 10 --stats 1s ${DEST[*]}
 }
 
 # Ooooo
