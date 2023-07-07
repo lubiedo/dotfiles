@@ -102,6 +102,10 @@ function filesum() {
   OLDIFS=$IFS
   IFS=' '
   for FILE in ${FILES[@]};do
+    if ! [ -f "$FILE" ]; then
+      echo "Error: file '${FILE}' does not exist."
+      continue
+    fi
     echo -n "* File: " && basename $FILE
     echo -n "* Size: " && stat -f '%z' $FILE
     echo -n "* Type: " && file -b $FILE
