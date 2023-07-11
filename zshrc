@@ -57,7 +57,6 @@ bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
 
 #aliases {{{
-alias yabai-restart='killall yabai ; (cd /private/tmp && nohup yabai &)'
 alias sha256="shasum -a 256"
 alias ls='exa'
 alias lnew='ll -snew'

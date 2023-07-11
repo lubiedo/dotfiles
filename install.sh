@@ -37,6 +37,8 @@ pkgs=(
   rg        # grep replacement
   rclone    # remote drives management
   hexcurse  # ncurses hex editor
+  raycast   # replace spotlight
+  binutils  # extra binary tools
 )
 for pkg in ${pkgs[*]};do
   brew install $pkg

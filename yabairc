@@ -82,7 +82,7 @@ yabai -m config                                 \
     mouse_drop_action            swap
 
 # unmanaged
-yabai -m rule --add app="^(Spotify|IINA)$" manage=off
+yabai -m rule --add app="^(Spotify|IINA|Messages)$" manage=off
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add title="^.+noVNC$" manage=off
 yabai -m rule --add app="scrcpy" manage=off # scrpy for android devices
