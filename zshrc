@@ -138,7 +138,7 @@ function zettelkasten() {
 function beats() {
   local ARG=$1
   [ -z $ARG ] && {
-    echo "beats [start|stop|restart]" && return
+    echo "beats [start|stop|restart|kill]" && return
   }
 
   local VOL=${VOL:-50}
@@ -148,6 +148,7 @@ function beats() {
     start) open -j -g "ooooo://start?frequency=${FRQ}&tone=${TON}&binaural=true&volume=${VOL}" ;;
     stop) open -j -g "ooooo://stop" ;;
     restart) beats stop; sleep 1 && beats start ;;
+    kill) beats stop; kill $(pgrep Ooooo);;
   esac
 }
 
