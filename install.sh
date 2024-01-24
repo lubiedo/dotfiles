@@ -6,7 +6,7 @@ download() {
   [ -n "$OUT" ] && curl -LsSf $URL -o $OUT || curl --remote-header-name -LsSf $URL -O
 }
 
-rcs=( tmux.conf vimrc config/kitty yabairc zshrc )
+rcs=( tmux.conf vimrc config/doom config/kitty yabairc zshrc )
 for rc in ${rcs[*]};do
   [ ! -L ~/.${rc} ] && ln -s ${PWD}/${rc} ~/.${rc}
 done
