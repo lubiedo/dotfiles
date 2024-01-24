@@ -9,7 +9,7 @@ ZSH_COLORIZE_STYLE=rrt
 DISABLE_MAGIC_FUNCTIONS=true
 
 export UPDATE_ZSH_DAYS=6
-export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 plugins=(git docker brew tmux virtualenv colored-man-pages colorize fancy-ctrl-z fzf)
 
 source $ZSH/oh-my-zsh.sh
@@ -22,6 +22,7 @@ fi
 
 export PATH="/usr/local/sbin:$PATH"
 export PATH="${HOME}/bin:$PATH"
+export PATH="${HOME}/.config/emacs/bin:$PATH"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export TERM="xterm-256color"
 # }}}
@@ -89,15 +90,6 @@ function urlencode() {
   perl -pe "s/([^^a-z0-9\-_.'\!()])/sprintf('%%%02x',ord(\$1))/ieg"
 }
 
-function qr-gen() {
-  read -r data
-  [ -z "$data" ] && return
-
-  local url='https://api.duckduckgo.com/?q=qr+code+%s&format=json'
-  curl -LsSf $( printf "$url" $( urlencode <<< "$data" ) ) | jq -r .Answer | perl -ne 'print $1 if(/base64,([^"]+)/)' | \
-    base64 -D | open -f -a Preview
-}
-
 function filesum() {
   local FILES=( $* )
   OLDIFS=$IFS
@@ -158,6 +150,20 @@ if ! which wget >/dev/null ;then
     curl --remote-header-name -O $@
   }
 fi
+# {{{ binary refinery zsh hack
+function alias-noglob {
+    while read -r entrypoint; do
+        alias $entrypoint="noglob $entrypoint"
+    done
+}
+
+python3 <<EOF 2>/dev/null | alias-noglob
+import pkg_resources
+for ep in pkg_resources.iter_entry_points('console_scripts'):
+    if ep.module_name.startswith('refinery'):
+        print(ep.name)
+EOF
+# }}}
 
 # }}}
 
