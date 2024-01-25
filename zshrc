@@ -63,7 +63,6 @@ alias ls='exa'
 alias lnew='ll -snew'
 alias tree='exa --tree'
 alias webserve='python3 -m http.server 8080'
-alias vscode="open -a Visual\\ Studio\\ Code"
 alias die="~/Applications/die.app/Contents/MacOS/DiE"
 [ -f /usr/local/bin/vim ] && alias vim='/usr/local/bin/vim' 
 [ -d /opt/homebrew/Cellar/binutils ]&& alias strings="/opt/homebrew/Cellar/binutils/*/bin/gstrings"
@@ -77,17 +76,6 @@ function vman() {
 
 function rmdsstore() {
   find "${@:-.}" -type f -name .DS_Store -delete
-}
-
-function tidy-brew() {
-  brew update && brew upgrade
-  brew cleanup -s
-  brew doctor
-  brew missing
-}
-
-function urlencode() {
-  perl -pe "s/([^^a-z0-9\-_.'\!()])/sprintf('%%%02x',ord(\$1))/ieg"
 }
 
 function filesum() {
@@ -107,23 +95,6 @@ function filesum() {
     echo -n "* SHA256: " && (shasum -a 256 $FILE | cut -d' ' -f1)
   done
   IFS=$OLDIFS
-}
-
-# zettelkasten
-function zettelkasten() {
-  local CMD=$1
-  local DO=$2
-
-  local DEST=""
-  case $DO in
-    down) DEST=( gdrive:zettelkasten ~/Documents/zettelkasten ); ;;
-    up) DEST=( ~/Documents/zettelkasten gdrive:zettelkasten ); ;;
-    *)
-      echo "actions: up/down" && return ;
-  esac
-
-  rclone $CMD --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 \
-    --low-level-retries 10 --stats 1s ${DEST[*]}
 }
 
 # Ooooo
@@ -150,6 +121,7 @@ if ! which wget >/dev/null ;then
     curl --remote-header-name -O $@
   }
 fi
+
 # {{{ binary refinery zsh hack
 function alias-noglob {
     while read -r entrypoint; do
