@@ -184,7 +184,7 @@
 This is an interactive function so it will require to choose: up or down."
   (interactive)
   (let ((cmds '("up" "down")))
-    (setq cmd (completing-read-default "up/down: \n" cmds))
+    (setq cmd (completing-read-default "Direction: " cmds))
         (if (and (not (string-equal cmd "up")) (not (string-equal cmd "down")))
         (message "Unknown command")
         (progn
@@ -239,6 +239,36 @@ This is an interactive function so it will require to choose: up or down."
                        "brew cleanup -s"
                        "brew doctor"
                        "brew missing"))))
+
+(defvar *beats-volume* 50)
+(defvar *beats-freq* 45)
+(defvar *beats-tone* 120)
+(defun beats(&optional action volume freq tone)
+  "Control binaural beats application Ooooo from Emacs!"
+  (interactive)
+  (or volume    (setq volume *beats-volume*))
+  (or freq      (setq freq *beats-freq*))
+  (or tone      (setq tone *beats-tone*))
+  (let (
+        (choice (if (null action)
+                    (completing-read "Action: " '("start" "stop" "restart" "kill"))
+                  action))
+        (beats-buffer "*Messages*"))
+    (cond
+     ((string-equal choice "start")
+      (async-shell-command
+       (format "open -j -g \"ooooo://start?frequency=%d&tone=%d&binaural=true&volume=%d\""
+               freq tone volume) beats-buffer))
+     ((string-equal choice "stop")
+      (async-shell-command "open -j -g \"ooooo://stop\"" beats-buffer))
+     ((string-equal choice "restart")
+      (beats "stop")
+      (sleep-for 1)
+      (beats "start"))
+     ((string-equal choice "kill")
+      (beats "stop")
+      (async-shell-command "killall Ooooo" beats-buffer)))
+    ))
 
 (defun curl-site ()
   "Curl site following redirects and silently create new HTML buffer."
