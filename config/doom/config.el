@@ -154,6 +154,9 @@
 (define-leader-key!
  "o e" '(elfeed :wk "Open RSS feed"))
 
+(define-leader-key!
+ "g d" '(magit-diff-dwim :wk "Magit diff (Dwim)"))
+
 (global-set-key (kbd "C-x <up>") 'ibuffer)
 (global-set-key (kbd "C-x t <right>") (cmd! (tab-bar-switch-to-next-tab) :wk "Move to right tab"))
 (global-set-key (kbd "C-x t <left>") (cmd! (tab-bar-switch-to-prev-tab) :wk "Move to left tab"))
