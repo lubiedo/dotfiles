@@ -97,24 +97,6 @@ function filesum() {
   IFS=$OLDIFS
 }
 
-# Ooooo
-function beats() {
-  local ARG=$1
-  [ -z $ARG ] && {
-    echo "beats [start|stop|restart|kill]" && return
-  }
-
-  local VOL=${VOL:-50}
-  local FRQ=${FRQ:-45}
-  local TON=${TON:-120}
-  case $ARG in
-    start) open -j -g "ooooo://start?frequency=${FRQ}&tone=${TON}&binaural=true&volume=${VOL}" ;;
-    stop) open -j -g "ooooo://stop" ;;
-    restart) beats stop; sleep 1 && beats start ;;
-    kill) beats stop; kill $(pgrep Ooooo);;
-  esac
-}
-
 # in case I keep writing `wget` and it doesn't exists...
 if ! which wget >/dev/null ;then
   function wget() {
