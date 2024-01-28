@@ -49,7 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
-(package! elfeed) ;; rss feed
-(package! elfeed-goodies) ;; extras to elfeed
-(package! dired-open) ;; dired custom open
-(package! all-the-icons-dired) ;; dired icons
+(package! elfeed)               ;; rss feed
+(package! elfeed-goodies)       ;; extras to elfeed
+(package! dired-open)           ;; dired custom open
+(package! all-the-icons-dired)  ;; dired icons
+(package! org-pomodoro)         ;; use pomodoro timers within orgs

@@ -84,6 +84,9 @@
 ;; enable alpha background
 (add-to-list 'default-frame-alist '(alpha-background . 90))
 
+;; show clock
+(display-time-mode 1)
+
 ;; insert lambda symbol
 (global-set-key (kbd "M-a") (lambda ()
   (interactive)
@@ -106,7 +109,7 @@
     tab-bar-mode)
 ;; }}}
 
-;; dired {{
+;; dired {{{
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode))
 (use-package dired-open
@@ -114,8 +117,24 @@
   (setq dired-open-extensions '(
                                 ("svg" . "open")
                                 ("jpg" . "open")
-                                ("png" . "open"))));;
-;; }}
+                                ("png" . "open"))))
+;;}}}
+
+;; org {{{
+(after! org
+  (setq org-directory "~/Documents/"
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")))
+
+(use-package org-pomodoro
+  :config
+  (setq
+   org-pomodoro-format (concat (nerd-icons-devicon "nf-dev-apple") "~%s")
+   org-pomodoro-ticking-sound-p t
+   org-pomodoro-ticking-sound "~/.config/doom/resources/sounds/tick.mp3")
+
+  (add-hook 'org-clock-in-hook #'org-pomodoro)
+  (add-hook 'org-clock-out-hook #'org-pomodoro))
+;;}}}
 
 ;; rss feed {{{
 (use-package elfeed
