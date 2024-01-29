@@ -141,8 +141,9 @@
   :defer t
   :config
   (add-hook 'elfeed-show-mode-hook #'elfeed-update)
-  (setq elfeed-search-filter "@2-week-ago")
+  (setq elfeed-search-filter "@1-week-ago")
   (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" artofmanliness)
+                      ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
                       ("https://talkback.sh/home/feed/" talkback security)
                       ("https://hackaday.com/blog/feed/" hackaday linux))))
 (use-package elfeed-goodies
@@ -150,7 +151,7 @@
   (elfeed-goodies/setup)
   :config
   (setq elfeed-goodies/entry-pane-position 'bottom)
-  (setq elfeed-goodies/entry-pane-size 0.50)
+  (setq elfeed-goodies/entry-pane-size 0.65)
 
   (add-hook 'elfeed-show-mode-hook #'writeroom-mode)) ;; display entry in zen mode
 ;; }}}
@@ -224,6 +225,37 @@ This is an interactive function so it will require to choose: up or down."
                     zettelkasten-from zettelkasten-to))
       (async-shell-command zettelkasten-rsync-cmd "*Messages*")
       )))
+
+(defun file-sum (path)
+  "Print file checksums and information to buffer.
+
+If PATH is a directory then recursively check all files with a depth of 1."
+  (interactive "G")
+  (if (file-exists-p path)
+      (cond
+       ((file-directory-p path)
+            (let ((files (directory-files path 'full directory-files-no-dot-files-regexp)))
+              (while files
+                (let ((file (pop files)))
+                  (if (file-regular-p file)
+                      (file-sum-print file)))
+                )))
+        ((file-regular-p path)
+           (file-sum-print path)))))
+
+(defun file-sum-print (file)
+  "Given a FILE, print checksum in a new buffer (see `file-sum')."
+  (get-buffer-create "file-sum-output")
+  (with-current-buffer "file-sum-output"
+    (insert (concat
+             "File: " file "\n"
+             "Size: " (shell-command-to-string (concat "stat -f '%z' " file))
+             "Type: " (shell-command-to-string (concat "file -b " file))
+             "MD5: " (shell-command-to-string (concat "md5 -q " file))
+             "SHA1: " (shell-command-to-string (concat "shasum -a 1 " file "| cut -d' ' -f1"))
+             "SHA256: " (shell-command-to-string (concat "shasum -a 256 " file "| cut -d' ' -f1"))
+             ))
+    (switch-to-buffer (buffer-name))))
 
 (defun qr-gen (s e)
   "Generate a QR code from REGION using DuckDuckGo API."
