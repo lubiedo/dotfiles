@@ -54,3 +54,4 @@
 (package! dired-open)           ;; dired custom open
 (package! all-the-icons-dired)  ;; dired icons
 (package! org-pomodoro)         ;; use pomodoro timers within orgs
+(package! powershell)           ;; powershell mode

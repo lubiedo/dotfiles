@@ -80,6 +80,7 @@
 (add-load-path! "~/.config/doom/scripts/")
 (require 'speed-type) ;; practice speed typing!
 (require 'thingatpt)
+(require 'yara-mode)
 
 ;; enable alpha background
 (add-to-list 'default-frame-alist '(alpha-background . 90))
@@ -140,12 +141,12 @@
 (use-package elfeed
   :defer t
   :config
-  (add-hook 'elfeed-show-mode-hook #'elfeed-update)
   (setq elfeed-search-filter "@1-week-ago")
   (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" artofmanliness)
+                      ("https://news.ycombinator.com/rss" hn)
                       ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
                       ("https://talkback.sh/home/feed/" talkback security)
-                      ("https://hackaday.com/blog/feed/" hackaday linux))))
+                      ("https://hackaday.com/blog/feed/" hackaday))))
 (use-package elfeed-goodies
   :init
   (elfeed-goodies/setup)

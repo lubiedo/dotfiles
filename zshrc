@@ -64,6 +64,7 @@ alias lnew='ll -snew'
 alias tree='exa --tree'
 alias webserve='python3 -m http.server 8080'
 alias die="~/Applications/die.app/Contents/MacOS/DiE"
+alias emacstart="emacs --bg-daemon && emacsclient -c"
 [ -f /usr/local/bin/vim ] && alias vim='/usr/local/bin/vim' 
 [ -d /opt/homebrew/Cellar/binutils ]&& alias strings="/opt/homebrew/Cellar/binutils/*/bin/gstrings"
 # }}}
