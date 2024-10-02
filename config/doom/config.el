@@ -178,6 +178,12 @@
 (define-leader-key!
  "g d" '(magit-diff-dwim :wk "Magit diff (Dwim)"))
 
+(map! :leader
+      (:when (modulep! :ui workspaces)
+        (:prefix-map ("TAB" . "workspace")
+         :desc "Next workspace"            "<right>"    #'+workspace/switch-right
+         :desc "Previous workspace"        "<left>"     #'+workspace/switch-left)))
+
 (global-set-key (kbd "C-x <up>") 'ibuffer)
 (global-set-key (kbd "C-x t <right>") (cmd! (tab-bar-switch-to-next-tab) :wk "Move to right tab"))
 (global-set-key (kbd "C-x t <left>") (cmd! (tab-bar-switch-to-prev-tab) :wk "Move to left tab"))
