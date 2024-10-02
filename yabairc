@@ -22,7 +22,6 @@ yabai -m config                                 \
     window_zoom_persist          on             \
     window_shadow                on             \
     window_animation_duration    0.0            \
-    window_animation_frame_rate  120            \
     window_opacity_duration      0.0            \
     active_window_opacity        1.0            \
     normal_window_opacity        0.90           \
@@ -43,7 +42,7 @@ yabai -m config                                 \
     mouse_drop_action            swap
     
 # unmanaged
-yabai -m rule --add app="^(DVD Player|Spotify|IINA|Messages)$" manage=off
+yabai -m rule --add app="^(DVD Player|IINA|Messages)$" manage=off
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add title="^.+noVNC$" manage=off
 yabai -m rule --add app="scrcpy" manage=off # scrpy for android devices
@@ -62,7 +61,6 @@ yabai -m space 4 --label uptodate
 yabai -m space 5 --label anarchy
 yabai -m config --space 5 layout float
 
-yabai -m rule --add app="^(Keybase|(Dis|Swift)cord|Microsoft Teams)$" space=social manage=off
 yabai -m rule --add title="^Keybase: Chat$" space=social manage=off
 yabai -m rule --add app="^(Arc|Firefox|Safari)$" space=browser
 yabai -m rule --add app="^(Thunderbird|NetNewsWire)$" space=uptodate
