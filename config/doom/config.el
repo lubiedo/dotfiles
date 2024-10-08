@@ -82,9 +82,20 @@
 (require 'thingatpt)
 (require 'yara-mode)
 
-;; enable alpha background
-(add-to-list 'default-frame-alist '(alpha-background . 90))
+;; take care of emacs looks
+(tool-bar-mode 0)
+(menu-bar-mode 1)
+(scroll-bar-mode 0)
+(column-number-mode 1)
+(show-paren-mode 1)
+;; (add-to-list 'default-frame-alist '(undecorated . t))
+(custom-set-variables '(frame-title-format nil) ; disable frame title format
+                      '(tool-bar-mode . nil)) ; disable tool bar )
 
+
+;; define the python3 version
+(defvar local/python-interpreter "python3.11")
+(setq python-shell-interpreter local/python-interpreter)
 ;; show clock
 (display-time-mode 1)
 
@@ -96,6 +107,12 @@
 
 ;; display lambda as symbol
 (global-prettify-symbols-mode 1)
+
+;; jupyter {{
+(require 'jupyter)
+(defun jupyter-locate-python () ;; hacky thing as I use 3.11, not latest
+    local/python-interpreter )
+;; }}
 
 ;; vterm {{{
 (use-package vterm
@@ -124,17 +141,15 @@
 ;; org {{{
 (after! org
   (setq org-directory "~/Documents/"
-        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")))
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆"))
 
-(use-package org-pomodoro
-  :config
-  (setq
-   org-pomodoro-format (concat (nerd-icons-devicon "nf-dev-apple") "~%s")
-   org-pomodoro-ticking-sound-p t
-   org-pomodoro-ticking-sound "~/.config/doom/resources/sounds/tick.mp3")
-
-  (add-hook 'org-clock-in-hook #'org-pomodoro)
-  (add-hook 'org-clock-out-hook #'org-pomodoro))
+  (advice-remove #'org-babel-do-load-languages #'ignore)
+  (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((emacs-lisp . t)
+      (python . t)
+      (jupyter . t)))
+  )
 ;;}}}
 
 ;; rss feed {{{
@@ -143,10 +158,11 @@
   :config
   (setq elfeed-search-filter "@1-week-ago")
   (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" artofmanliness)
-                      ("https://news.ycombinator.com/rss" hn)
-                      ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
-                      ("https://talkback.sh/home/feed/" talkback security)
-                      ("https://hackaday.com/blog/feed/" hackaday))))
+                       ("https://news.ycombinator.com/rss" hn)
+                       ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
+                       ("https://talkback.sh/home/feed/" talkback security)
+                       ("https://hackaday.com/blog/feed/" hackaday))))
+
 (use-package elfeed-goodies
   :init
   (elfeed-goodies/setup)
@@ -158,9 +174,9 @@
 ;; }}}
 
 ;; macos {{{
-(if IS-MAC (progn
-             (setq delete-by-moving-to-trash t)
-             (setq trash-directory "~/.Trash")))
+(if (featurep :system 'macos) (progn
+                                (setq delete-by-moving-to-trash t)
+                                (setq trash-directory "~/.Trash")))
 ;; }}}
 
 ;; keybindings {{{
@@ -173,7 +189,7 @@
  "e r" '(eval-region :wk "Evaluate region"))
 
 (define-leader-key!
- "o e" '(elfeed :wk "Open RSS feed"))
+ "o e" '(pre-elfeed :wk "Open RSS feed (and update)"))
 
 (define-leader-key!
  "g d" '(magit-diff-dwim :wk "Magit diff (Dwim)"))
@@ -274,7 +290,7 @@ If PATH is a directory then recursively check all files with a depth of 1."
          (url-request-method "GET"))
     (if (not (string-empty-p data))
         (url-retrieve (url-encode-url (format qr-gen-url (princ data)))
-                      (lambda (status )
+                      (lambda ()
                         (let ((answer (gethash "Answer" (json-parse-string
                                   (car (last (s-lines (buffer-string))))))))
                           (if (not (string-empty-p answer))
@@ -287,11 +303,11 @@ If PATH is a directory then recursively check all files with a depth of 1."
                         ))
       nil)))
 
-(defun tidy-brew ()
-  "Tidy up homebrew"
-  (interactive)
+(if (featurep :system 'macos)
+    (defun tidy-brew ()
+      "Tidy up homebrew"
+      (interactive)
 
-  (if IS-MAC
       (exec-all-list '(
                        "brew update && brew upgrade"
                        "brew cleanup -s"
@@ -320,5 +336,26 @@ If PATH is a directory then recursively check all files with a depth of 1."
      (switch-to-buffer name)
      (html-mode)
      (beginning-of-buffer))))
-;; }}}
 
+(defun pre-elfeed ()
+  "Calls `elfeed' and updates its feeds database."
+  (interactive)
+  (elfeed)
+  (elfeed-update))
+
+;; credit: https://github.com/rexim/dotfiles
+(defconst rc/frame-transparency 97)
+
+(defun rc/toggle-transparency ()
+  (interactive)
+  (let ((frame-alpha (frame-parameter nil 'alpha)))
+    (if (or (not frame-alpha)
+            (= (cadr frame-alpha) 100))
+        (rc/set-transparency rc/frame-transparency)
+      (rc/set-transparency 100))))
+
+(defun rc/set-transparency (n)
+  (set-frame-parameter nil 'alpha (list n n)))
+
+(rc/set-transparency rc/frame-transparency)
+;; }}}

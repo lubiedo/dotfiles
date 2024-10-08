@@ -61,6 +61,7 @@ yabai -m space 4 --label uptodate
 yabai -m space 5 --label anarchy
 yabai -m config --space 5 layout float
 
+yabai -m rule --add app="Emacs" space=code
 yabai -m rule --add title="^Keybase: Chat$" space=social manage=off
 yabai -m rule --add app="^(Arc|Firefox|Safari)$" space=browser
 yabai -m rule --add app="^(Thunderbird|NetNewsWire)$" space=uptodate

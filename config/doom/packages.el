@@ -53,5 +53,6 @@
 (package! elfeed-goodies)       ;; extras to elfeed
 (package! dired-open)           ;; dired custom open
 (package! all-the-icons-dired)  ;; dired icons
-(package! org-pomodoro)         ;; use pomodoro timers within orgs
 (package! powershell)           ;; powershell mode
+(package! jupyter)              ;; jupyter use from org-mode
+(package! ellama)               ;; ollama
