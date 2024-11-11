@@ -42,15 +42,14 @@ yabai -m config                                 \
     mouse_drop_action            swap
     
 # unmanaged
-yabai -m rule --add app="^(DVD Player|IINA|Messages)$" manage=off
+yabai -m rule --add app="^(DVD Player|Spotify|IINA|Messages)$" manage=off
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add title="^.+noVNC$" manage=off
 yabai -m rule --add app="scrcpy" manage=off # scrpy for android devices
 yabai -m rule --add title="^(maltego|Web Inspector|Developer Tools|Android Emulator|Detect It Easy).*" manage=off
-yabai -m rule --add app="^(Notes|LuLu|MinimaList|Boop|Calculator|Voice Memos|SelfControl|Another Day|Oo{4}|Binaural|Simulator|TomatoBar|1Password)$" manage=off # misc tools
+yabai -m rule --add app="^(Notes|LuLu|Boop|Calculator|Voice Memos|Oo{4}|Binaural|Simulator|1Password)$" manage=off # misc tools
 yabai -m rule --add app="^Steam" manage=off # misc tools
 yabai -m rule --add app="^Music$" title="MiniPlayer" manage=off
-yabai -m rule --add app="^Arc$" title="Picture in Picture" manage=off
 
 # setup spaces
 yabai -m space 1 --label code
@@ -61,9 +60,9 @@ yabai -m space 4 --label uptodate
 yabai -m space 5 --label anarchy
 yabai -m config --space 5 layout float
 
-yabai -m rule --add app="Emacs" space=code
-yabai -m rule --add title="^Keybase: Chat$" space=social manage=off
-yabai -m rule --add app="^(Arc|Firefox|Safari)$" space=browser
-yabai -m rule --add app="^(Thunderbird|NetNewsWire)$" space=uptodate
+yabai -m rule --add app="Emacs" space=code 
+yabai -m rule --add app="(Keybase|Signal)" space=social manage=off
+yabai -m rule --add title="^Keybase: Chat" space=social manage=off
+yabai -m rule --add app="^(Firefox|Safari|Orion)$" space=browser
 
 echo "yabai configuration loaded.."

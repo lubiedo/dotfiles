@@ -59,9 +59,7 @@ bindkey "^[[1;3D" backward-word
 
 #aliases {{{
 alias sha256="shasum -a 256"
-alias ls='exa'
 alias lnew='ll -snew'
-alias tree='exa --tree'
 alias webserve='python3 -m http.server 8080'
 alias die="/Applications/DiE.app/Contents/MacOS/DiE"
 alias emacstart="emacs --bg-daemon && emacsclient -c"

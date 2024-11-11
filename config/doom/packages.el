@@ -54,5 +54,5 @@
 (package! dired-open)           ;; dired custom open
 (package! all-the-icons-dired)  ;; dired icons
 (package! powershell)           ;; powershell mode
-(package! jupyter)              ;; jupyter use from org-mode
-(package! ellama)               ;; ollama
+(package! jupyter :disable t)              ;; jupyter use from org-mode
+;; (package! ellama)               ;; ollama

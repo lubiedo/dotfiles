@@ -34,7 +34,6 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-gruvbox-custom)
 
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
@@ -42,7 +41,6 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
-
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -83,19 +81,17 @@
 (require 'yara-mode)
 
 ;; take care of emacs looks
-(tool-bar-mode 0)
-(menu-bar-mode 1)
-(scroll-bar-mode 0)
-(column-number-mode 1)
-(show-paren-mode 1)
+;; (scroll-bar-mode 0)
+;; (menu-bar-mode 0)
+;; (show-paren-mode 1)
+;; (column-number-mode 1)
+;; (tool-bar-mode 0)
 ;; (add-to-list 'default-frame-alist '(undecorated . t))
-(custom-set-variables '(frame-title-format nil) ; disable frame title format
-                      '(tool-bar-mode . nil)) ; disable tool bar )
-
 
 ;; define the python3 version
 (defvar local/python-interpreter "python3.11")
 (setq python-shell-interpreter local/python-interpreter)
+
 ;; show clock
 (display-time-mode 1)
 
@@ -108,11 +104,12 @@
 ;; display lambda as symbol
 (global-prettify-symbols-mode 1)
 
-;; jupyter {{
-(require 'jupyter)
-(defun jupyter-locate-python () ;; hacky thing as I use 3.11, not latest
-    local/python-interpreter )
-;; }}
+;; ;; jupyter {{
+;; (require 'jupyter)
+;; (after! jupyter
+;;   (defun jupyter-locate-python () ;; hacky thing as I use 3.11, not latest
+;;     local/python-interpreter ))
+;; ;; }}
 
 ;; vterm {{{
 (use-package vterm
@@ -148,7 +145,8 @@
     'org-babel-load-languages
     '((emacs-lisp . t)
       (python . t)
-      (jupyter . t)))
+      ;; (jupyter . t)
+      ))
   )
 ;;}}}
 
@@ -159,6 +157,7 @@
   (setq elfeed-search-filter "@1-week-ago")
   (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" artofmanliness)
                        ("https://news.ycombinator.com/rss" hn)
+                       ("http://krebsonsecurity.com/feed/" krebbo-stabbo)
                        ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
                        ("https://talkback.sh/home/feed/" talkback security)
                        ("https://hackaday.com/blog/feed/" hackaday))))
@@ -169,7 +168,6 @@
   :config
   (setq elfeed-goodies/entry-pane-position 'bottom)
   (setq elfeed-goodies/entry-pane-size 0.65)
-
   (add-hook 'elfeed-show-mode-hook #'writeroom-mode)) ;; display entry in zen mode
 ;; }}}
 
