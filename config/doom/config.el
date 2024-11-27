@@ -237,6 +237,9 @@
  "e r" '(eval-region :wk "Evaluate region"))
 
 (define-leader-key!
+ "z" '(zettelkasten :wk "Zettelkasten"))
+
+(define-leader-key!
  "o e" '(pre-elfeed :wk "Open RSS feed (and update)"))
 
 (define-leader-key!
