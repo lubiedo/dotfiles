@@ -138,7 +138,7 @@
     :hook
     (org-mode . org-fancy-priorities-mode)
     :config
-    (setq org-fancy-priorities-list '("🏁" "⬆" "⬇" "☕︎")))
+    (setq org-fancy-priorities-list '("⚑" "⚑" "⚑" "☕︎")))
 
   (setq org-directory "~/Documents/zettelkasten"
         org-agenda-files `("~/Documents/zettelkasten"))
@@ -160,11 +160,9 @@
   ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
   (setq org-capture-templates
         `(("t" "todo" entry (file org-default-notes-file)
-           "* TODO %?\n")
+           "* TODO %? %^g\n%U\n")
           ("n" "note" entry (file org-default-notes-file)
-           "* %? :NOTE:\n")
-          ("w" "org-protocol" entry (file org-default-notes-file)
-           "* TODO REVIEW %c\n" :immediate-finish t)))
+           "* %? :NOTE:\n%U\n")))
 
   ;; Do not dim blocked tasks
   (setq org-agenda-dim-blocked-tasks nil)
@@ -177,6 +175,7 @@
                         ("@work" . ?w)
                         ("@home" . ?h)
                         ("@cyberia" . ?l)
+                        ("@misc" . ?m)
                         (:endgroup)
                         ("STUDY" . ?S)
                         ("FINANCE" . ?B)
@@ -185,13 +184,6 @@
                         ("WORK" . ?O)
                         ("HEALTH" . ?H)
                         ("FAM" . ?F)))
-
-  (defun org-custom/remove-empty-drawer-on-clock-out ()
-    (interactive)
-    (save-excursion
-      (beginning-of-line 0)
-      (org-remove-empty-drawer-at (point))))
-  (add-hook 'org-clock-out-hook 'org-custom/remove-empty-drawer-on-clock-out 'append)
 
   (advice-remove #'org-babel-do-load-languages #'ignore)
   (org-babel-do-load-languages
