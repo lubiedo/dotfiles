@@ -49,10 +49,11 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
+(package! org-fancy-priorities) ;; fancy icons in org-agenda
 (package! elfeed)               ;; rss feed
 (package! elfeed-goodies)       ;; extras to elfeed
 (package! dired-open)           ;; dired custom open
 (package! all-the-icons-dired)  ;; dired icons
 (package! powershell)           ;; powershell mode
-(package! jupyter :disable t)              ;; jupyter use from org-mode
+(package! jupyter :disable t)   ;; jupyter use from org-mode
 ;; (package! ellama)               ;; ollama

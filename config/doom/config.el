@@ -133,15 +133,21 @@
 
 ;; org {{{
 (after! org
+  (use-package org-fancy-priorities
+    :ensure t
+    :hook
+    (org-mode . org-fancy-priorities-mode)
+    :config
+    (setq org-fancy-priorities-list '("🏁" "⬆" "⬇" "☕︎")))
+
   (setq org-directory "~/Documents/zettelkasten"
-        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆"))
+        org-agenda-files `("~/Documents/zettelkasten"))
 
-  (setq org-agenda-files `("~/Documents/zettelkasten"))
-
-  ;; http://doc.norang.ca/org-mode.html#tasksandstates
+  ;; higly based on http://doc.norang.ca/org-mode.html#tasksandstates
   (setq org-todo-keywords
         `((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
           (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
+
   (setq org-todo-keyword-faces
         `(("TODO" :foreground "red" :weight bold)
           ("NEXT" :foreground "blue" :weight bold)
@@ -150,47 +156,42 @@
           ("HOLD" :foreground "magenta" :weight bold)
           ("CANCELLED" :foreground "forest green" :weight bold)))
 
-  (setq org-default-notes-file (concat org-directory "/refile.org"))
+  (setq org-default-notes-file (concat org-directory "/agenda.org"))
   ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
   (setq org-capture-templates
         `(("t" "todo" entry (file org-default-notes-file)
-           "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-          ("r" "respond" entry (file org-default-notes-file)
-           "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+           "* TODO %?\n")
           ("n" "note" entry (file org-default-notes-file)
-           "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+           "* %? :NOTE:\n")
           ("w" "org-protocol" entry (file org-default-notes-file)
-           "* TODO REVIEW %c\n%U\n" :immediate-finish t)
-          ("h" "habit" entry (file org-default-notes-file)
-           "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")))
+           "* TODO REVIEW %c\n" :immediate-finish t)))
 
-  ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                   (org-agenda-files :maxlevel . 9))))
-  ; Use full outline paths for refile targets - we file directly with IDO
-  (setq org-refile-use-outline-path t)
-  ;; Targets complete directly with IDO
-  (setq org-outline-path-complete-in-steps nil)
-  ;; Allow refile to create parent tasks with confirmation
-  (setq org-refile-allow-creating-parent-nodes (quote confirm))
-  ;; Use IDO for both buffer and file completion and ido-everywhere to t
-  (setq org-completion-use-ido t)
-  (setq ido-everywhere t)
-  (setq ido-max-directory-size 100000)
-  (ido-mode (quote both))
-  ;; Use the current window when visiting files and buffers with ido
-  (setq ido-default-file-method 'selected-window)
-  (setq ido-default-buffer-method 'selected-window)
-  ;; Use the current window for indirect buffer display
-  (setq org-indirect-buffer-display 'current-window)
-  ;; Refile settings
-  ;; Exclude DONE state tasks from refile targets
-  (defun org-custom/verify-refile-target ()
-    "Exclude todo keywords with a done state from refile targets"
-    (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+  ;; Do not dim blocked tasks
+  (setq org-agenda-dim-blocked-tasks nil)
+  ;; Compact the block agenda view
+  (setq org-agenda-compact-blocks t)
 
-  (setq org-refile-target-verify-function 'org-custom/verify-refile-target)
+  ;; custom tags
+  (setq org-tag-alist `((:startgroup)
+                        ("@errand" . ?h)
+                        ("@work" . ?w)
+                        ("@home" . ?h)
+                        ("@cyberia" . ?l)
+                        (:endgroup)
+                        ("STUDY" . ?S)
+                        ("FINANCE" . ?B)
+                        ("LANG" . ?L)
+                        ("PERSONAL" . ?P)
+                        ("WORK" . ?O)
+                        ("HEALTH" . ?H)
+                        ("FAM" . ?F)))
 
+  (defun org-custom/remove-empty-drawer-on-clock-out ()
+    (interactive)
+    (save-excursion
+      (beginning-of-line 0)
+      (org-remove-empty-drawer-at (point))))
+  (add-hook 'org-clock-out-hook 'org-custom/remove-empty-drawer-on-clock-out 'append)
 
   (advice-remove #'org-babel-do-load-languages #'ignore)
   (org-babel-do-load-languages
