@@ -172,7 +172,6 @@
   ;; custom tags
   (setq org-tag-alist `((:startgroup)
                         ("@errand" . ?h)
-                        ("@work" . ?w)
                         ("@home" . ?h)
                         ("@cyberia" . ?l)
                         ("@misc" . ?m)
