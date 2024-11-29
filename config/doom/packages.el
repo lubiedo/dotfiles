@@ -49,7 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
-(package! org-fancy-priorities) ;; fancy icons in org-agenda
+(package! org-fancy-priorities) ;; fancy icons and ...
+(package! org-bullets)          ;; fancy bullets in org-agenda
 (package! elfeed)               ;; rss feed
 (package! elfeed-goodies)       ;; extras to elfeed
 (package! dired-open)           ;; dired custom open

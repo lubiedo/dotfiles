@@ -128,41 +128,52 @@
   (setq dired-open-extensions '(
                                 ("svg" . "open")
                                 ("jpg" . "open")
+                                ("pdf" . "open")
                                 ("png" . "open"))))
 ;;}}}
 
 ;; org {{{
 (after! org
+  (use-package org-bullets
+    :hook
+    (org-mode . org-bullets-mode))
+
   (use-package org-fancy-priorities
-    :ensure t
     :hook
     (org-mode . org-fancy-priorities-mode)
     :config
-    (setq org-fancy-priorities-list '("⚑" "⚑" "⚑" "☕︎")))
+    (setq org-fancy-priorities-list '("⚑" "⚑" "⚑" "☕︎")
+          org-ellipsis " ⨁"))
 
   (setq org-directory "~/Documents/zettelkasten"
         org-agenda-files `("~/Documents/zettelkasten"))
 
-  ;; higly based on http://doc.norang.ca/org-mode.html#tasksandstates
+  ;; stole some stuff from [[file+emacs:~/Documents/zettelkasten/links.org::12]]
   (setq org-todo-keywords
-        `((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+        `((sequence "TODO(t)" "NEXT(n)" "ONIT(o)" "|" "DONE(d@)")
           (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
 
   (setq org-todo-keyword-faces
         `(("TODO" :foreground "red" :weight bold)
           ("NEXT" :foreground "blue" :weight bold)
+          ("ONIT" :foreground "purple" :weight bold)
           ("DONE" :foreground "forest green" :weight bold)
           ("WAITING" :foreground "orange" :weight bold)
           ("HOLD" :foreground "magenta" :weight bold)
           ("CANCELLED" :foreground "forest green" :weight bold)))
 
-  (setq org-default-notes-file (concat org-directory "/agenda.org"))
-  ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+  (setq org-default-notes-file (concat org-directory "/agenda.org")
+        org-custom-links-file (concat org-directory "/links.org"))
+
   (setq org-capture-templates
         `(("t" "todo" entry (file org-default-notes-file)
            "* TODO %? %^g\n%U\n")
           ("n" "note" entry (file org-default-notes-file)
-           "* %? :NOTE:\n%U\n")))
+           "* %? :NOTE:\n%U\n")
+          ("i" "idea" entry (file org-default-notes-file)
+           "* %? :IDEA:\n%U\n")
+          ("l" "link" entry (file org-custom-links-file)
+           "* %c %U %?\n%^{DESCRIPTION}p")))
 
   ;; Do not dim blocked tasks
   (setq org-agenda-dim-blocked-tasks nil)
@@ -183,6 +194,11 @@
                         ("WORK" . ?O)
                         ("HEALTH" . ?H)
                         ("FAM" . ?F)))
+
+  ;; links view
+  (setq org-agenda-custom-commands
+        '(("l" "Links view"
+           ((tags "LINK")))))
 
   (advice-remove #'org-babel-do-load-languages #'ignore)
   (org-babel-do-load-languages
@@ -239,6 +255,7 @@
  "z" '(zettelkasten :wk "Zettelkasten"))
 
 (define-leader-key!
+ "o B" '(browse-url-at-point :wk "Browse URL at point")
  "o e" '(pre-elfeed :wk "Open RSS feed (and update)"))
 
 (define-leader-key!
