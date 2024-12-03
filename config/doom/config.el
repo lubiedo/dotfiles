@@ -197,7 +197,23 @@
 
   ;; links view
   (setq org-agenda-custom-commands
-        '(("l" "Links view"
+        '(("v" "Custom agenda view"
+           ((agenda "" nil)
+            (tags-todo "-TODO-NEXT/!ONIT"
+                  ((org-agenda-overriding-header "In Progress Tasks")
+                   (org-tags-match-list-sublevels nil)))
+            (tags "PRIORITY=\"A\""
+                  ((org-agenda-overriding-header "All High Priority Tasks")
+                   (org-tags-match-list-sublevels nil)))
+            (tags-todo "-TODO/!NEXT"
+                  ((org-agenda-overriding-header "Next Tasks")
+                   (org-tags-match-list-sublevels nil)))
+            (tags "WORK"
+                  ((org-agenda-overriding-header "Work Tasks")
+                   (org-tags-match-list-sublevels nil)
+                   (org-agenda-sorting-strategy
+                    '(todo-state-down category-keep))))))
+          ("l" "Links view"
            ((tags "LINK")))))
 
   (advice-remove #'org-babel-do-load-languages #'ignore)
