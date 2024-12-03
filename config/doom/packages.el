@@ -57,4 +57,5 @@
 (package! all-the-icons-dired)  ;; dired icons
 (package! powershell)           ;; powershell mode
 (package! jupyter :disable t)   ;; jupyter use from org-mode
+(package! minimap)              ;; minimap window
 ;; (package! ellama)               ;; ollama
