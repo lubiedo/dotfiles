@@ -92,16 +92,22 @@
   ;; stole some stuff from [[file+emacs:~/Documents/zettelkasten/links.org::12]]
   (setq org-todo-keywords
         `((sequence "TODO(t)" "NEXT(n)" "ONIT(o)" "|" "DONE(d@)")
-          (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
+          (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")
+          (sequence "IDEA(i@/!)" "IMPLEMENTED(I@/!)" "|" "DISCARDED(D@/!)")))
 
   (setq org-todo-keyword-faces
         `(("TODO" :foreground "red" :weight bold)
           ("NEXT" :foreground "blue" :weight bold)
           ("ONIT" :foreground "purple" :weight bold)
           ("DONE" :foreground "forest green" :weight bold)
+          ;; intermediary states
           ("WAITING" :foreground "orange" :weight bold)
           ("HOLD" :foreground "magenta" :weight bold)
-          ("CANCELLED" :foreground "forest green" :weight bold)))
+          ("CANCELLED" :foreground "forest green" :weight bold)
+          ;; ideas
+          ("IDEA" :foreground "LightSkyBlue" )
+          ("IMPLEMENTED" :foreground "LightSkyBlue" :weight bold)
+          ("DISCARDED" :foreground "LightSkyBlue" :strike-through t)))
 
   (setq org-default-notes-file (concat org-directory "/agenda.org")
         org-custom-links-file (concat org-directory "/links.org"))
