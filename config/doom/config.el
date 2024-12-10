@@ -211,7 +211,7 @@
  "e r" '(eval-region :wk "Evaluate region"))
 
 (define-leader-key!
- "z" '(zettelkasten :wk "Zettelkasten"))
+ "z" '(int/zettelkasten :wk "Zettelkasten"))
 
 (define-leader-key!
  "o B" '(browse-url-at-point :wk "Browse URL at point")
@@ -233,21 +233,7 @@
 ;;
 
 ;; functions {{{
-(defun exec-all-list (cmds)
-  "Just execute a LIST of commands, one-by-one"
-  (setq proc-name "exec-all-list-proc")
-  (setq buffer-name "*Messages*")
-
-  (if (not (null cmds))
-      (progn
-        (set-process-sentinel
-         (start-process-shell-command proc-name buffer-name
-                                      (format "/bin/zsh -c '%s'" (car cmds)))
-         (lambda (p e)
-           (message (format "%s => %s" (car cmds) (s-trim e)))
-           (exec-all-list (cdr cmds)))))))
-
-(defun zettelkasten ()
+(defun int/zettelkasten ()
   "Copy zettelkasten to and from Google Drive backup.
 
 This is an interactive function so it will require to choose: up or down."
@@ -275,7 +261,7 @@ This is an interactive function so it will require to choose: up or down."
       (async-shell-command zettelkasten-rsync-cmd "*Messages*")
       )))
 
-(defun file-sum (path)
+(defun util/file-sum (path)
   "Print file checksums and information to buffer.
 
 If PATH is a directory then recursively check all files with a depth of 1."
@@ -287,12 +273,12 @@ If PATH is a directory then recursively check all files with a depth of 1."
               (while files
                 (let ((file (pop files)))
                   (if (file-regular-p file)
-                      (file-sum-print file)))
+                      (util/file-sum-print file)))
                 )))
         ((file-regular-p path)
-           (file-sum-print path)))))
+           (util/file-sum-print path)))))
 
-(defun file-sum-print (file)
+(defun util/file-sum-print (file)
   "Given a FILE, print checksum in a new buffer (see `file-sum')."
   (get-buffer-create "file-sum-output")
   (with-current-buffer "file-sum-output"
@@ -306,7 +292,7 @@ If PATH is a directory then recursively check all files with a depth of 1."
              ))
     (switch-to-buffer (buffer-name))))
 
-(defun qr-gen (s e)
+(defun util/qr-gen (s e)
   "Generate a QR code from REGION using DuckDuckGo API."
   (interactive "r")
   (defvar qr-gen-buffer-name "qr-gen")
@@ -330,17 +316,21 @@ If PATH is a directory then recursively check all files with a depth of 1."
       nil)))
 
 (if (featurep :system 'macos)
-    (defun tidy-brew ()
+    (defun sys/restart-coreaudio ()
+      (interactive)
+      (async-shell-command "sudo kill $(pgrep 'coreaudiod')"))
+
+    (defun sys/tidy-brew ()
       "Tidy up homebrew"
       (interactive)
 
-      (exec-all-list '(
+      (rc/exec-all-list '(
                        "brew update && brew upgrade"
                        "brew cleanup -s"
                        "brew doctor"
                        "brew missing"))))
 
-(defun url-defang (url)
+(defun util/url-defang (url)
   "'Defangs' an URL and copies it into the GUI clipboard."
   (interactive "sURL: ")
   (with-temp-buffer
@@ -351,7 +341,7 @@ If PATH is a directory then recursively check all files with a depth of 1."
     (mark-whole-buffer)
     (clipboard-kill-region 0 0 (region-active-p))))
 
-(defun curl-site ()
+(defun util/curl-site ()
   "Curl site following redirects and silently create new HTML buffer."
   (interactive
    (let ((website (read-string "URL: " nil 'url))
@@ -363,7 +353,21 @@ If PATH is a directory then recursively check all files with a depth of 1."
      (html-mode)
      (beginning-of-buffer))))
 
-(defun pre-elfeed ()
+(defun rc/exec-all-list (cmds)
+  "Just execute a LIST of commands, one-by-one"
+  (setq proc-name "exec-all-list-proc")
+  (setq buffer-name "*Messages*")
+
+  (if (not (null cmds))
+      (progn
+        (set-process-sentinel
+         (start-process-shell-command proc-name buffer-name
+                                      (format "/bin/zsh -c '%s'" (car cmds)))
+         (lambda (p e)
+           (message (format "%s => %s" (car cmds) (s-trim e)))
+           (rc/exec-all-list (cdr cmds)))))))
+
+(defun rc/pre-elfeed ()
   "Calls `elfeed' and updates its feeds database."
   (interactive)
   (elfeed)
