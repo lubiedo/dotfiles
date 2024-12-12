@@ -215,7 +215,7 @@
 
 (define-leader-key!
  "o B" '(browse-url-at-point :wk "Browse URL at point")
- "o e" '(pre-elfeed :wk "Open RSS feed (and update)"))
+ "o e" '(rc/pre-elfeed :wk "Open RSS feed (and update)"))
 
 (define-leader-key!
  "g d" '(magit-diff-dwim :wk "Magit diff (Dwim)"))
