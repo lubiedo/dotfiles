@@ -8,9 +8,11 @@ ZSH_COLORIZE_TOOL=pygmentize
 ZSH_COLORIZE_STYLE=rrt
 DISABLE_MAGIC_FUNCTIONS=true
 
+IS_MACOS() { [[ $(uname) == "Darwin" ]]; }
+
 export UPDATE_ZSH_DAYS=6
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-plugins=(git docker brew tmux virtualenv colored-man-pages colorize fancy-ctrl-z fzf)
+IS_MACOS && export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+plugins=(git docker brew virtualenv colored-man-pages colorize fancy-ctrl-z fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -23,7 +25,7 @@ fi
 export PATH="/usr/local/sbin:$PATH"
 export PATH="${HOME}/bin:$PATH"
 export PATH="${HOME}/.config/emacs/bin:$PATH"
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
+IS_MACOS && export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export TERM="xterm-256color"
 # }}}
 
@@ -54,28 +56,29 @@ export PROMPT='$(vcs_status)%(?,%{$fg[green]%};,%{$fg[red]%};)%{$reset_color%}%b
 source ${HOME}/.local.zshrc
 
 # enables macOS to do wordleft/wordright
-bindkey "^[[1;3C" forward-word
-bindkey "^[[1;3D" backward-word
+if IS_MACOS; then
+  bindkey "^[[1;3C" forward-word
+  bindkey "^[[1;3D" backward-word
+fi
 
 #aliases {{{
-alias sha256="shasum -a 256"
 alias lnew='ll -snew'
 alias webserve='python3 -m http.server 8080'
-alias die="/Applications/DiE.app/Contents/MacOS/DiE"
 alias emacstart="emacs --bg-daemon && emacsclient -c"
-[ -f /usr/local/bin/vim ] && alias vim='/usr/local/bin/vim' 
-[ -d /opt/homebrew/Cellar/binutils ]&& alias strings="/opt/homebrew/Cellar/binutils/*/bin/gstrings"
+[ -f /usr/local/bin/vim ] && alias vim='/usr/local/bin/vim'
+
+if IS_MACOS; then
+  [ -d /opt/homebrew/Cellar/binutils ]&& alias strings="/opt/homebrew/Cellar/binutils/*/bin/gstrings"
+  alias sha256="shasum -a 256"
+  alias die="/Applications/DiE.app/Contents/MacOS/DiE"
+  if which gfind >/dev/null; then
+    alias find='gfind'
+  fi
+fi
 # }}}
 
 # functions {{{
 function fullpath() { echo $(pwd)/${1/.\//} }
-function vman() {
-  man -t "$@" | open -f -a Preview
-}
-
-function rmdsstore() {
-  find "${@:-.}" -type f -name .DS_Store -delete
-}
 
 function filesum() {
   local FILES=( $* )
@@ -96,11 +99,21 @@ function filesum() {
   IFS=$OLDIFS
 }
 
-# in case I keep writing `wget` and it doesn't exists...
-if ! which wget >/dev/null ;then
-  function wget() {
-    curl --remote-header-name -O $@
+if IS_MACOS;then
+  function vman() {
+    man -t "$@" | open -f -a Preview
   }
+
+  function rmdsstore() {
+    find "${@:-.}" -type f -name .DS_Store -delete
+  }
+
+  # in case I keep writing `wget` and it doesn't exists...
+  if ! which wget >/dev/null ;then
+    function wget() {
+      curl --remote-header-name -O $@
+    }
+  fi
 fi
 
 # {{{ binary refinery zsh hack

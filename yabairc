@@ -61,8 +61,6 @@ yabai -m space 5 --label anarchy
 yabai -m config --space 5 layout float
 
 yabai -m rule --add app="Emacs" space=code 
-yabai -m rule --add app="(Keybase|Signal)" space=social manage=off
-yabai -m rule --add title="^Keybase: Chat" space=social manage=off
 yabai -m rule --add app="^(Firefox|Safari|Orion)$" space=browser
 
 echo "yabai configuration loaded.."

@@ -1,6 +1,6 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'semi-light)
+(setq doom-font (font-spec :family "Greybeard 11px" :size 14)
      doom-variable-pitch-font (font-spec :family "Fira Code" :size 13))
 (setq doom-theme 'doom-gruvbox-custom)
 (setq display-line-numbers-type t)
@@ -175,10 +175,10 @@
   :config
   (setq elfeed-search-filter "@1-week-ago")
   (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" artofmanliness)
+                       ("https://www.reddit.com/r/netsec/.rss" netsec)
                        ("https://news.ycombinator.com/rss" hn)
                        ("http://krebsonsecurity.com/feed/" krebbo-stabbo)
                        ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
-                       ("https://talkback.sh/home/feed/" talkback security)
                        ("https://hackaday.com/blog/feed/" hackaday))))
 
 (use-package elfeed-goodies
