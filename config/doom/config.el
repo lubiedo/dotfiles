@@ -177,6 +177,7 @@
   (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" artofmanliness)
                        ("https://www.reddit.com/r/netsec/.rss" netsec)
                        ("https://news.ycombinator.com/rss" hn)
+                       ("https://hackcur.io/feed/" hacker_curio)
                        ("http://krebsonsecurity.com/feed/" krebbo-stabbo)
                        ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
                        ("https://hackaday.com/blog/feed/" hackaday))))
@@ -284,11 +285,11 @@ If PATH is a directory then recursively check all files with a depth of 1."
   (with-current-buffer "file-sum-output"
     (insert (concat
              "File: " file "\n"
-             "Size: " (shell-command-to-string (concat "stat -f '%z' " file))
-             "Type: " (shell-command-to-string (concat "file -b " file))
-             "MD5: " (shell-command-to-string (concat "md5 -q " file))
-             "SHA1: " (shell-command-to-string (concat "shasum -a 1 " file "| cut -d' ' -f1"))
-             "SHA256: " (shell-command-to-string (concat "shasum -a 256 " file "| cut -d' ' -f1"))
+             "Size: " (shell-command-to-string (concat "stat -f '%z' \'" file "\'"))
+             "Type: " (shell-command-to-string (concat "file -b \"" file "\""))
+             "MD5: " (shell-command-to-string (concat "md5 -q \'" file "\'"))
+             "SHA1: " (shell-command-to-string (concat "shasum -a 1 \'" file "\' | cut -d' ' -f1"))
+             "SHA256: " (shell-command-to-string (concat "shasum -a 256 \'" file "\' | cut -d' ' -f1"))
              ))
     (switch-to-buffer (buffer-name))))
 

@@ -48,7 +48,9 @@ yabai -m rule --add title="^.+noVNC$" manage=off
 yabai -m rule --add app="scrcpy" manage=off # scrpy for android devices
 yabai -m rule --add title="^(maltego|Web Inspector|Developer Tools|Android Emulator|Detect It Easy).*" manage=off
 yabai -m rule --add app="^(Notes|LuLu|Boop|Calculator|Voice Memos|Oo{4}|Binaural|Simulator|1Password)$" manage=off # misc tools
+yabai -m rule --add app="^Orion" title='^Orion Preview' manage=off # misc tools
 yabai -m rule --add app="^Steam" manage=off # misc tools
+yabai -m rule --add app="^Another Day$" manage=off # misc tools
 yabai -m rule --add app="^Music$" title="MiniPlayer" manage=off
 
 # setup spaces

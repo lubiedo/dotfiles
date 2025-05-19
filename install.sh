@@ -31,6 +31,7 @@ pkgs=(
   vim       # use brew's vim for python3 support
   up        # visual command pipeliner
   jq        # json processor
+  jless     # json's less
   7zip      # 7z
   fzf       # fuzzy search
   rg        # grep replacement
@@ -39,9 +40,18 @@ pkgs=(
   raycast   # replace spotlight
   binutils  # extra binary tools
   fd        # find alternative
+  imhex     # binary data explorer
+  ffmpeg    # audio/video
+  qemu      # virtualization
+  gcc       # GNU C compiler
+  binwalk   # binary file walker
 )
 for pkg in ${pkgs[*]};do
   brew install "$pkg"
 done
+
+# emacs
+brew tap railwaycat/emacsmacport
+brew install --cask emacs-mac
 
 exec bash post-install.sh
