@@ -1,0 +1,10 @@
+font-family = "Greybeard 11px"
+font-size = 13
+title = " "
+theme = GruvboxDarkHard
+background-opacity = 0.97
+adjust-cell-width = "-6%"
+adjust-cell-height = "+1%"
+window-padding-balance = true
+macos-titlebar-style = hidden
+keybind = super+x=unbind
