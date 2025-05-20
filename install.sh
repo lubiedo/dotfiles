@@ -28,6 +28,7 @@ download "https://raw.githubusercontent.com/s3rvac/vim-syntax-yara/master/syntax
 
 # brew installs
 pkgs=(
+  koekeishiya/formulae/yabai  # tiling window manager
   vim       # use brew's vim for python3 support
   up        # visual command pipeliner
   jq        # json processor
@@ -49,9 +50,5 @@ pkgs=(
 for pkg in ${pkgs[*]};do
   brew install "$pkg"
 done
-
-# emacs
-brew tap railwaycat/emacsmacport
-brew install --cask emacs-mac
 
 exec bash post-install.sh
