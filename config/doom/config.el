@@ -177,9 +177,12 @@
   (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" artofmanliness)
                        ("https://www.reddit.com/r/netsec/.rss" netsec)
                        ("https://news.ycombinator.com/rss" hn)
+                       ("https://geohot.github.io/blog/feed.xml" geohot)
                        ("https://hackcur.io/feed/" hacker_curio)
                        ("http://krebsonsecurity.com/feed/" krebbo-stabbo)
+                       ("https://malpedia.caad.fkie.fraunhofer.de/feeds/rss/latest" malpedia)
                        ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
+                       ("https://www.dazeddigital.com/rss" dazed)
                        ("https://hackaday.com/blog/feed/" hackaday))))
 
 (use-package elfeed-goodies

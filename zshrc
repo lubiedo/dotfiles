@@ -123,7 +123,7 @@ function alias-noglob {
     done
 }
 
-python3 <<EOF 2>/dev/null | alias-noglob
+python3.11 <<EOF 2>/dev/null | alias-noglob
 import pkg_resources
 for ep in pkg_resources.iter_entry_points('console_scripts'):
     if ep.module_name.startswith('refinery'):
