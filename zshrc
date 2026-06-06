@@ -12,7 +12,7 @@ IS_MACOS() { [[ $(uname) == "Darwin" ]]; }
 
 export UPDATE_ZSH_DAYS=6
 IS_MACOS && export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-plugins=(git docker brew virtualenv colored-man-pages colorize fancy-ctrl-z fzf)
+plugins=(git brew virtualenv colored-man-pages colorize fancy-ctrl-z fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -70,7 +70,7 @@ alias emacstart="emacs --bg-daemon && emacsclient -c"
 if IS_MACOS; then
   [ -d /opt/homebrew/Cellar/binutils ]&& alias strings="/opt/homebrew/Cellar/binutils/*/bin/gstrings"
   alias sha256="shasum -a 256"
-  alias die="/Applications/DiE.app/Contents/MacOS/DiE"
+  alias diec="~/Applications/DiE.app/Contents/MacOS/diec"
   if which gfind >/dev/null; then
     alias find='gfind'
   fi

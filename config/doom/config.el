@@ -2,23 +2,13 @@
 
 (setq doom-font (font-spec :family "Greybeard 11px" :size 14)
      doom-variable-pitch-font (font-spec :family "Fira Code" :size 13))
-(setq doom-theme 'doom-gruvbox-custom)
+(setq doom-theme 'doom-gruvbox)
 (setq display-line-numbers-type t)
 (setq org-directory "~/org/")
 
 ;; add extra scripts and requires
 (add-load-path! "~/.config/doom/scripts/")
-(require 'speed-type) ;; practice speed typing!
 (require 'thingatpt)
-(require 'yara-mode)
-
-;; take care of emacs looks
-;; (scroll-bar-mode 0)
-;; (menu-bar-mode 0)
-;; (show-paren-mode 1)
-;; (column-number-mode 1)
-;; (tool-bar-mode 0)
-;; (add-to-list 'default-frame-alist '(undecorated . t))
 
 ;; show clock
 (display-time-mode 1)
@@ -38,15 +28,6 @@
 ;;   (defun jupyter-locate-python () ;; hacky thing as I use 3.11, not latest
 ;;     local/python-interpreter ))
 ;; ;; }}
-
-;; minimap {{
-(use-package minimap
-  :config
-  (setq minimap-window-location 'right))
-(map! :leader
-      (:prefix ("t" . "toggle")
-       :desc "Toggle minimap-mode" "m" #'minimap-mode))
-;; }}
 
 ;; vterm {{{
 (use-package vterm
@@ -167,23 +148,25 @@
       ;; (jupyter . t)
       ))
   )
-;;}}}
+;; }}}
 
-;; rss feed {{{
+;; elfeed {{{
 (use-package elfeed
-  :defer t
+  :ensure t
   :config
   (setq elfeed-search-filter "@1-week-ago")
-  (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" artofmanliness)
-                       ("https://www.reddit.com/r/netsec/.rss" netsec)
-                       ("https://news.ycombinator.com/rss" hn)
-                       ("https://geohot.github.io/blog/feed.xml" geohot)
-                       ("https://hackcur.io/feed/" hacker_curio)
-                       ("http://krebsonsecurity.com/feed/" krebbo-stabbo)
-                       ("https://malpedia.caad.fkie.fraunhofer.de/feeds/rss/latest" malpedia)
-                       ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" xxiivv)
-                       ("https://www.dazeddigital.com/rss" dazed)
-                       ("https://hackaday.com/blog/feed/" hackaday))))
+  (setq elfeed-feeds '(("https://www.artofmanliness.com/rss" life)
+                       ("https://www.reddit.com/r/netsec/.rss" security)
+                       ("https://news.ycombinator.com/rss" hn tech)
+                       ("https://geohot.github.io/blog/feed.xml" tech blog)
+                       ("https://hackcur.io/feed/" tech security)
+                       ("http://krebsonsecurity.com/feed/" security)
+                       ("https://malpedia.caad.fkie.fraunhofer.de/feeds/rss/latest" security)
+                       ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" tech blog)
+                       ("https://www.dazeddigital.com/rss" life)
+                       ("https://hackaday.com/blog/feed/" tech)
+		       ("https://shkspr.mobi/blog/feed/atom/" tech blog)
+		       ("https://maya.land/feed.xml" tech blog))))
 
 (use-package elfeed-goodies
   :init
@@ -192,12 +175,28 @@
   (setq elfeed-goodies/entry-pane-position 'bottom)
   (setq elfeed-goodies/entry-pane-size 0.65)
   (add-hook 'elfeed-show-mode-hook #'writeroom-mode)) ;; display entry in zen mode
+
+;; faces
+(defface elfeed-security
+  '((t
+     :background "#f12200"))
+  "Face for security entries"
+  :group 'elfeed)
+(defface elfeed-hn
+  '((t
+     :background "#FF5900"))
+  "Face for hackernews entries"
+  :group 'elfeed)
+
+(push '(hn elfeed-hn
+        security elfeed-security)
+      elfeed-search-face-alist)
 ;; }}}
 
 ;; macos {{{
 (if (featurep :system 'macos) (progn
                                 ;; define the python3 version
-                                (defvar local/python-interpreter "python3.11")
+                                (defvar local/python-interpreter "python3.14")
                                 (setq python-shell-interpreter local/python-interpreter)
 
                                 ;; file deletion
@@ -231,6 +230,7 @@
          :desc "Previous workspace"        "<left>"     #'+workspace/switch-left)))
 
 (global-set-key (kbd "C-x <up>") 'ibuffer)
+(global-set-key (kbd "S-ESC") 'vterm-send-escape)
 (global-set-key (kbd "C-x t <right>") (cmd! (tab-bar-switch-to-next-tab) :wk "Move to right tab"))
 (global-set-key (kbd "C-x t <left>") (cmd! (tab-bar-switch-to-prev-tab) :wk "Move to left tab"))
 ;; }}}
