@@ -22,6 +22,9 @@
 ;; display lambda as symbol
 (global-prettify-symbols-mode 1)
 
+;; relative line numbers
+(setq display-line-numbers-type 'relative)
+
 ;; ;; jupyter {{
 ;; (require 'jupyter)
 ;; (after! jupyter
