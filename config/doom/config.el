@@ -1,7 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(setq doom-font (font-spec :family "Greybeard 11px" :size 14)
-     doom-variable-pitch-font (font-spec :family "Fira Code" :size 13))
+(setq doom-font (font-spec :family "Greybeard 11px" :size 13)
+      doom-variable-pitch-font (font-spec :family "Fira Code" :size 13))
 (setq doom-theme 'doom-gruvbox)
 (setq display-line-numbers-type t)
 (setq org-directory "~/org/")
@@ -24,13 +24,6 @@
 
 ;; relative line numbers
 (setq display-line-numbers-type 'relative)
-
-;; ;; jupyter {{
-;; (require 'jupyter)
-;; (after! jupyter
-;;   (defun jupyter-locate-python () ;; hacky thing as I use 3.11, not latest
-;;     local/python-interpreter ))
-;; ;; }}
 
 ;; vterm {{{
 (use-package vterm
@@ -147,9 +140,7 @@
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)
-      (python . t)
-      ;; (jupyter . t)
-      ))
+      (python . t)))
   )
 ;; }}}
 

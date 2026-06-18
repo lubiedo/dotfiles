@@ -56,6 +56,4 @@
 (package! dired-open)           ;; dired custom open
 (package! all-the-icons-dired)  ;; dired icons
 (package! powershell)           ;; powershell mode
-(package! jupyter :disable t)   ;; jupyter use from org-mode
-(package! minimap :disable t)              ;; minimap window
 (package! yara-mode)            ;; writing  yara rules
