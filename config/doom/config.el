@@ -159,6 +159,7 @@
                        ("https://journal.miso.town/atom?url=https://wiki.xxiivv.com/site/now.html" tech blog)
                        ("https://www.dazeddigital.com/rss" life)
                        ("https://hackaday.com/blog/feed/" tech)
+                       ("https://www.bunniestudios.com/blog/feed/" tech blog)
 		       ("https://shkspr.mobi/blog/feed/atom/" tech blog)
 		       ("https://maya.land/feed.xml" tech blog))))
 
